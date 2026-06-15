@@ -10,13 +10,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from src.factorforge.agents.roles import Role
-from src.factorforge.backends.base import AgentBackend
-from src.factorforge.backtest.data import DataSource
-from src.factorforge.backtest.tools import run_backtest_tool, run_diagnostics_tool
-from src.factorforge.config import Settings
-from src.factorforge.knowledge import KnowledgeBase
-from src.factorforge.models import (
+from factorforge.agents.roles import Role
+from factorforge.backends.base import AgentBackend
+from factorforge.backtest.data import DataSource
+from factorforge.backtest.tools import run_backtest_tool, run_diagnostics_tool
+from factorforge.config import Settings
+from factorforge.knowledge import KnowledgeBase
+from factorforge.models import (
     BacktestResult,
     EvidencePath,
     FactorDirection,
@@ -27,8 +27,8 @@ from src.factorforge.models import (
     RiskFlag,
     Severity,
 )
-from src.factorforge.providers.base import LLMProvider
-from src.factorforge.retrieval.retriever import retrieve
+from factorforge.providers.base import LLMProvider
+from factorforge.retrieval.retriever import retrieve
 
 # Conventional construction per factor (so the mock forms a sensible hypothesis).
 _DIRECTION = {

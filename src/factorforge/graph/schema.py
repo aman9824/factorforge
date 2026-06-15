@@ -12,7 +12,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from src.factorforge.models import Entity, Relation
+from factorforge.models import Entity, Relation
 
 
 class Neighbor(BaseModel):

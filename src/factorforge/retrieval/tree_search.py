@@ -8,8 +8,8 @@ No embeddings — just structure + reasoning.
 
 from __future__ import annotations
 
-from src.factorforge.corpus.structure import find_node, node_own_text, node_text
-from src.factorforge.models import (
+from factorforge.corpus.structure import find_node, node_own_text, node_text
+from factorforge.models import (
     Citation,
     DocTree,
     Document,
@@ -17,7 +17,7 @@ from src.factorforge.models import (
     PathKind,
     PathStep,
 )
-from src.factorforge.providers.base import LLMProvider
+from factorforge.providers.base import LLMProvider
 
 
 def tree_evidence(

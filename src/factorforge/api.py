@@ -12,9 +12,9 @@ from functools import lru_cache
 from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import BaseModel
 
-from src.factorforge.config import get_settings
-from src.factorforge.knowledge import KnowledgeBase, build_knowledge_base
-from src.factorforge.models import Report
+from factorforge.config import get_settings
+from factorforge.knowledge import KnowledgeBase, build_knowledge_base
+from factorforge.models import Report
 
 app = FastAPI(
     title="FactorForge",
@@ -29,7 +29,7 @@ class ResearchRequest(BaseModel):
 
 @lru_cache(maxsize=1)
 def _knowledge_base() -> KnowledgeBase:
-    from src.factorforge.factory import build_provider
+    from factorforge.factory import build_provider
 
     return build_knowledge_base(build_provider(get_settings()))
 
@@ -48,7 +48,7 @@ def health() -> dict[str, str]:
 
 @app.post("/research", dependencies=[Depends(require_auth)])
 def research_endpoint(request: ResearchRequest) -> Report:
-    from src.factorforge.orchestrator import research
+    from factorforge.orchestrator import research
 
     settings = get_settings()
     return research(request.question, settings=settings, kb=_knowledge_base())

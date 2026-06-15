@@ -17,8 +17,8 @@ from pathlib import Path
 
 import numpy as np
 
-from src.factorforge.backtest.data import DEFAULT_CACHE_DIR
-from src.factorforge.logging import get_logger
+from factorforge.backtest.data import DEFAULT_CACHE_DIR
+from factorforge.logging import get_logger
 
 log = get_logger(__name__)
 
@@ -60,8 +60,8 @@ def fetch_french(
 
 
 def main() -> None:
-    from src.factorforge.config import get_settings
-    from src.factorforge.logging import configure_logging
+    from factorforge.config import get_settings
+    from factorforge.logging import configure_logging
 
     settings = get_settings()
     configure_logging(settings.log_level, settings.log_json)

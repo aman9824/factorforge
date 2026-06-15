@@ -20,13 +20,13 @@ from typing import Any  # noqa: E402
 import bt  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from src.factorforge.backtest.data import FactorPanel  # noqa: E402
-from src.factorforge.backtest.factor import (  # noqa: E402
+from factorforge.backtest.data import FactorPanel  # noqa: E402
+from factorforge.backtest.factor import (  # noqa: E402
     build_target_weights,
     information_coefficient,
     turnover,
 )
-from src.factorforge.models import BacktestResult, BacktestStats, FactorHypothesis  # noqa: E402
+from factorforge.models import BacktestResult, BacktestStats, FactorHypothesis  # noqa: E402
 
 PERIODS_PER_YEAR = 12  # the bundled panels are monthly
 

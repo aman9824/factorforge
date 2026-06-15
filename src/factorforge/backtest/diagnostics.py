@@ -23,9 +23,9 @@ import numpy as np
 import pandas as pd
 from scipy.stats import kurtosis, norm, skew
 
-from src.factorforge.backtest.data import FactorPanel
-from src.factorforge.backtest.engine import PERIODS_PER_YEAR, strategy_returns
-from src.factorforge.models import FactorHypothesis, OverfittingReport
+from factorforge.backtest.data import FactorPanel
+from factorforge.backtest.engine import PERIODS_PER_YEAR, strategy_returns
+from factorforge.models import FactorHypothesis, OverfittingReport
 
 # Configuration grid for PBO / parameter-sensitivity / Sharpe-variance. Kept small (each variant is
 # a full bt run, ~3s); 3 quantile cuts is enough signal while keeping the pipeline responsive.

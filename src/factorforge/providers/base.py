@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from src.factorforge.models import DocTree, Document, NavSelection, RawExtraction
+from factorforge.models import DocTree, Document, NavSelection, RawExtraction
 
 
 class LLMProvider(ABC):

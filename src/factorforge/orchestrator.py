@@ -8,16 +8,16 @@ drives the mock and Claude backends. Every stage is written to the audit log.
 
 from __future__ import annotations
 
-from src.factorforge.agents.roles import BACKTESTER, CRITIC, HYPOTHESIZER, REPORTER, RESEARCHER
-from src.factorforge.audit import AuditLog
-from src.factorforge.backends.base import AgentBackend
-from src.factorforge.backtest.data import DataSource
-from src.factorforge.backtest.tools import backtest_hypothesis
-from src.factorforge.config import Settings, get_settings
-from src.factorforge.factory import build_backend, build_data_source, build_provider
-from src.factorforge.knowledge import KnowledgeBase, build_knowledge_base
-from src.factorforge.logging import get_logger
-from src.factorforge.models import (
+from factorforge.agents.roles import BACKTESTER, CRITIC, HYPOTHESIZER, REPORTER, RESEARCHER
+from factorforge.audit import AuditLog
+from factorforge.backends.base import AgentBackend
+from factorforge.backtest.data import DataSource
+from factorforge.backtest.tools import backtest_hypothesis
+from factorforge.config import Settings, get_settings
+from factorforge.factory import build_backend, build_data_source, build_provider
+from factorforge.knowledge import KnowledgeBase, build_knowledge_base
+from factorforge.logging import get_logger
+from factorforge.models import (
     BacktesterOutput,
     BacktestStats,
     CriticOutput,
@@ -26,9 +26,9 @@ from src.factorforge.models import (
     Report,
     ResearcherOutput,
 )
-from src.factorforge.providers.base import LLMProvider
-from src.factorforge.retrieval.retriever import retrieve
-from src.factorforge.telemetry import CostTracker
+from factorforge.providers.base import LLMProvider
+from factorforge.retrieval.retriever import retrieve
+from factorforge.telemetry import CostTracker
 
 log = get_logger(__name__)
 

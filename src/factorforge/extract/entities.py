@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from src.factorforge.citations.verifier import VerifiedExtraction, verify_extraction
-from src.factorforge.corpus.structure import build_doc_tree
-from src.factorforge.models import DocTree, Document
-from src.factorforge.providers.base import LLMProvider
+from factorforge.citations.verifier import VerifiedExtraction, verify_extraction
+from factorforge.corpus.structure import build_doc_tree
+from factorforge.models import DocTree, Document
+from factorforge.providers.base import LLMProvider
 
 
 @dataclass(frozen=True)

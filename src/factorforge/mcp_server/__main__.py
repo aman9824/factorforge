@@ -11,9 +11,9 @@ from __future__ import annotations
 
 import sys
 
-from src.factorforge.config import get_settings
-from src.factorforge.logging import configure_logging, get_logger
-from src.factorforge.mcp_server.server import build_server
+from factorforge.config import get_settings
+from factorforge.logging import configure_logging, get_logger
+from factorforge.mcp_server.server import build_server
 
 log = get_logger(__name__)
 

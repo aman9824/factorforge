@@ -14,10 +14,10 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from src.factorforge.backtest.data import DataSource
-from src.factorforge.backtest.diagnostics import run_diagnostics
-from src.factorforge.backtest.engine import run_backtest
-from src.factorforge.models import BacktestResult, FactorHypothesis, OverfittingReport
+from factorforge.backtest.data import DataSource
+from factorforge.backtest.diagnostics import run_diagnostics
+from factorforge.backtest.engine import run_backtest
+from factorforge.models import BacktestResult, FactorHypothesis, OverfittingReport
 
 
 class ToolSpec(BaseModel):

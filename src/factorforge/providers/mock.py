@@ -8,9 +8,9 @@ is real (every edge is backed by a quote) — only the *judgment* is rule-based 
 
 from __future__ import annotations
 
-from src.factorforge.corpus.structure import iter_nodes
-from src.factorforge.extract.vocab import find_mentions, split_sentences, tokenize
-from src.factorforge.models import (
+from factorforge.corpus.structure import iter_nodes
+from factorforge.extract.vocab import find_mentions, split_sentences, tokenize
+from factorforge.models import (
     DocTree,
     Document,
     EntityType,
@@ -20,7 +20,7 @@ from src.factorforge.models import (
     RawRelation,
     RelationType,
 )
-from src.factorforge.providers.base import LLMProvider
+from factorforge.providers.base import LLMProvider
 
 
 class MockProvider(LLMProvider):

@@ -13,9 +13,9 @@ citation.
 
 from __future__ import annotations
 
-from src.factorforge.extract.entities import IndexedDoc
-from src.factorforge.graph.store import GraphStore, NetworkxGraphStore
-from src.factorforge.models import Entity, EntityType, Relation, RelationType
+from factorforge.extract.entities import IndexedDoc
+from factorforge.graph.store import GraphStore, NetworkxGraphStore
+from factorforge.models import Entity, EntityType, Relation, RelationType
 
 
 def build_graph(indexed: list[IndexedDoc], store: GraphStore | None = None) -> GraphStore:

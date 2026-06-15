@@ -13,8 +13,8 @@ import re
 
 from pydantic import BaseModel, Field
 
-from src.factorforge.corpus.structure import node_for_offset
-from src.factorforge.models import (
+from factorforge.corpus.structure import node_for_offset
+from factorforge.models import (
     Citation,
     DocTree,
     Document,

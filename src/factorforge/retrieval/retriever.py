@@ -13,14 +13,14 @@ embeddings, no opaque similarity score.
 
 from __future__ import annotations
 
-from src.factorforge.config import Settings
-from src.factorforge.extract.vocab import tokenize
-from src.factorforge.knowledge import KnowledgeBase
-from src.factorforge.models import EvidencePath, RetrievalResult
-from src.factorforge.providers.base import LLMProvider
-from src.factorforge.retrieval.filters import anchor_entities, docs_mentioning
-from src.factorforge.retrieval.graph_nav import graph_evidence
-from src.factorforge.retrieval.tree_search import tree_evidence
+from factorforge.config import Settings
+from factorforge.extract.vocab import tokenize
+from factorforge.knowledge import KnowledgeBase
+from factorforge.models import EvidencePath, RetrievalResult
+from factorforge.providers.base import LLMProvider
+from factorforge.retrieval.filters import anchor_entities, docs_mentioning
+from factorforge.retrieval.graph_nav import graph_evidence
+from factorforge.retrieval.tree_search import tree_evidence
 
 
 def _score(query_tokens: set[str], path: EvidencePath) -> float:

@@ -16,7 +16,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterator
 
-from src.factorforge.models import DocNode, DocTree, Document
+from factorforge.models import DocNode, DocTree, Document
 
 _HEADER = re.compile(r"^(#{1,6})[ \t]+(.+?)[ \t]*$", re.MULTILINE)
 _WS = re.compile(r"\s+")

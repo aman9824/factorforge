@@ -20,9 +20,9 @@ if _reconfigure is not None:
 import typer  # noqa: E402
 from rich.console import Console  # noqa: E402
 
-from src.factorforge.config import Settings, get_settings  # noqa: E402
-from src.factorforge.logging import configure_logging  # noqa: E402
-from src.factorforge.models import Report  # noqa: E402
+from factorforge.config import Settings, get_settings  # noqa: E402
+from factorforge.logging import configure_logging  # noqa: E402
+from factorforge.models import Report  # noqa: E402
 
 app = typer.Typer(add_completion=False, help="FactorForge — auditable vectorless quant-research engine.")
 console = Console()
@@ -34,7 +34,7 @@ _VERDICT_STYLE = {"promising": "green", "inconclusive": "yellow", "likely_overfi
 
 def _run(question: str, settings: Settings) -> Report:
     configure_logging(settings.log_level, settings.log_json)
-    from src.factorforge.orchestrator import research
+    from factorforge.orchestrator import research
 
     return research(question, settings=settings)
 
@@ -90,9 +90,9 @@ def backtest(
     quantiles: int = typer.Option(5, help="Number of quantiles."),
 ) -> None:
     """Run a single deterministic backtest + overfitting diagnostics."""
-    from src.factorforge.backtest.tools import backtest_hypothesis, diagnose_hypothesis
-    from src.factorforge.factory import build_data_source
-    from src.factorforge.models import FactorDirection, FactorHypothesis
+    from factorforge.backtest.tools import backtest_hypothesis, diagnose_hypothesis
+    from factorforge.factory import build_data_source
+    from factorforge.models import FactorDirection, FactorHypothesis
 
     settings = get_settings()
     ds = build_data_source(settings)
@@ -112,8 +112,8 @@ def backtest(
 @app.command("build-graph")
 def build_graph() -> None:
     """Build the knowledge graph from the corpus and print its statistics."""
-    from src.factorforge.factory import build_provider
-    from src.factorforge.knowledge import build_knowledge_base
+    from factorforge.factory import build_provider
+    from factorforge.knowledge import build_knowledge_base
 
     settings = get_settings()
     kb = build_knowledge_base(build_provider(settings))
@@ -123,7 +123,7 @@ def build_graph() -> None:
 @app.command("serve-mcp")
 def serve_mcp(http: bool = typer.Option(False, "--http", help="Serve over streamable-HTTP instead of stdio.")) -> None:
     """Run the standalone knowledge-graph MCP server."""
-    from src.factorforge.mcp_server.__main__ import main as mcp_main
+    from factorforge.mcp_server.__main__ import main as mcp_main
 
     mcp_main(["--http"] if http else [])
 
@@ -131,7 +131,7 @@ def serve_mcp(http: bool = typer.Option(False, "--http", help="Serve over stream
 @app.command("fetch-french")
 def fetch_french() -> None:
     """Download real Fama-French data into the git-ignored cache (requires the [french] extra)."""
-    from src.factorforge.backtest.fetch_french import main as fetch_main
+    from factorforge.backtest.fetch_french import main as fetch_main
 
     fetch_main()
 

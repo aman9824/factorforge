@@ -16,9 +16,9 @@ from typing import Any
 
 import networkx as nx
 
-from src.factorforge.extract.vocab import tokenize
-from src.factorforge.graph.schema import GraphPath, Neighbor
-from src.factorforge.models import Entity, EntityType, Relation
+from factorforge.extract.vocab import tokenize
+from factorforge.graph.schema import GraphPath, Neighbor
+from factorforge.models import Entity, EntityType, Relation
 
 
 def _parse_id(entity_id: str) -> tuple[EntityType | None, str]:

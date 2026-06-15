@@ -7,20 +7,20 @@ the full mock pipeline without them.
 
 from __future__ import annotations
 
-from src.factorforge.backends.base import AgentBackend
-from src.factorforge.backtest.data import DataSource
-from src.factorforge.config import BackendKind, DataSourceKind, ProviderKind, Settings
-from src.factorforge.knowledge import KnowledgeBase
-from src.factorforge.providers.base import LLMProvider
+from factorforge.backends.base import AgentBackend
+from factorforge.backtest.data import DataSource
+from factorforge.config import BackendKind, DataSourceKind, ProviderKind, Settings
+from factorforge.knowledge import KnowledgeBase
+from factorforge.providers.base import LLMProvider
 
 
 def build_provider(settings: Settings) -> LLMProvider:
     """Build the structured-generation provider (extraction / navigation)."""
     if settings.llm_provider == ProviderKind.VERTEX:
-        from src.factorforge.providers.vertex import VertexProvider
+        from factorforge.providers.vertex import VertexProvider
 
         return VertexProvider(settings)
-    from src.factorforge.providers.mock import MockProvider
+    from factorforge.providers.mock import MockProvider
 
     return MockProvider()
 
@@ -28,10 +28,10 @@ def build_provider(settings: Settings) -> LLMProvider:
 def build_data_source(settings: Settings) -> DataSource:
     """Build the backtest data source (synthetic by default; real Fama-French on demand)."""
     if settings.data_source == DataSourceKind.FRENCH:
-        from src.factorforge.backtest.data import FrenchDataSource
+        from factorforge.backtest.data import FrenchDataSource
 
         return FrenchDataSource()
-    from src.factorforge.backtest.data import SyntheticDataSource
+    from factorforge.backtest.data import SyntheticDataSource
 
     return SyntheticDataSource(seed=settings.synthetic_seed)
 
@@ -41,9 +41,9 @@ def build_backend(
 ) -> AgentBackend:
     """Build the multi-agent execution backend (deterministic mock by default; Claude on demand)."""
     if settings.agent_backend == BackendKind.CLAUDE:
-        from src.factorforge.backends.claude import ClaudeAgentBackend
+        from factorforge.backends.claude import ClaudeAgentBackend
 
         return ClaudeAgentBackend(settings, data_source, kb)
-    from src.factorforge.backends.mock import MockBackend
+    from factorforge.backends.mock import MockBackend
 
     return MockBackend(settings, kb, data_source, provider)

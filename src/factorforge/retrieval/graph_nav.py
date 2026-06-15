@@ -13,8 +13,8 @@ of the tree search.
 
 from __future__ import annotations
 
-from src.factorforge.knowledge import KnowledgeBase
-from src.factorforge.models import (
+from factorforge.knowledge import KnowledgeBase
+from factorforge.models import (
     Entity,
     EntityType,
     EvidencePath,

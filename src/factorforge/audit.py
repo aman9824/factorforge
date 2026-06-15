@@ -12,7 +12,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from src.factorforge.config import Settings
+from factorforge.config import Settings
 
 
 class AuditLog:

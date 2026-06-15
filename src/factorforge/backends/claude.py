@@ -22,20 +22,20 @@ import os
 import sys
 from typing import Any
 
-from src.factorforge.agents.roles import Role
-from src.factorforge.backends.base import AgentBackend
-from src.factorforge.backtest.data import DataSource
-from src.factorforge.backtest.tools import (
+from factorforge.agents.roles import Role
+from factorforge.backends.base import AgentBackend
+from factorforge.backtest.data import DataSource
+from factorforge.backtest.tools import (
     BACKTEST_TOOL,
     DIAGNOSTICS_TOOL,
     run_backtest_tool,
     run_diagnostics_tool,
 )
-from src.factorforge.citations.verifier import resolve_citation
-from src.factorforge.config import Settings
-from src.factorforge.knowledge import KnowledgeBase
-from src.factorforge.logging import get_logger
-from src.factorforge.models import (
+from factorforge.citations.verifier import resolve_citation
+from factorforge.config import Settings
+from factorforge.knowledge import KnowledgeBase
+from factorforge.logging import get_logger
+from factorforge.models import (
     Citation,
     EvidencePath,
     Finding,

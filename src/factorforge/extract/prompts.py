@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from src.factorforge.models import NavSelection, RawExtraction
+from factorforge.models import NavSelection, RawExtraction
 
 # ── Extraction ───────────────────────────────────────────────────────────────
 

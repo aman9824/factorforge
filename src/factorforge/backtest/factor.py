@@ -11,7 +11,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from src.factorforge.models import FactorDirection
+from factorforge.models import FactorDirection
 
 
 def build_target_weights(

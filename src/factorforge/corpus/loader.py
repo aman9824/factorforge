@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from src.factorforge.models import Document
+from factorforge.models import Document
 
 # src/factorforge/corpus/loader.py -> parents[3] == project root (projects/factorforge)
 _PROJECT_ROOT = Path(__file__).resolve().parents[3]

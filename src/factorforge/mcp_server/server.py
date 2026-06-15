@@ -16,14 +16,14 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
-from src.factorforge.config import Settings, get_settings
-from src.factorforge.corpus.structure import find_node, node_text, render_outline
-from src.factorforge.factory import build_provider
-from src.factorforge.knowledge import KnowledgeBase, build_knowledge_base
-from src.factorforge.models import EntityType, EvidencePath
-from src.factorforge.providers.base import LLMProvider
-from src.factorforge.retrieval.retriever import retrieve
-from src.factorforge.retrieval.tree_search import tree_evidence
+from factorforge.config import Settings, get_settings
+from factorforge.corpus.structure import find_node, node_text, render_outline
+from factorforge.factory import build_provider
+from factorforge.knowledge import KnowledgeBase, build_knowledge_base
+from factorforge.models import EntityType, EvidencePath
+from factorforge.providers.base import LLMProvider
+from factorforge.retrieval.retriever import retrieve
+from factorforge.retrieval.tree_search import tree_evidence
 
 _QUOTE_CAP = 320  # cap quoted text so evidence stays token-cheap for the agent
 

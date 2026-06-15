@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import re
 
-from src.factorforge.models import EntityType
+from factorforge.models import EntityType
 
 # Canonical name -> surface aliases. Aliases are curated to match the corpus precisely while
 # avoiding cross-document false positives (e.g. bare "value" is omitted so "market value" in the

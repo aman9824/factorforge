@@ -7,8 +7,8 @@ tree search on only the documents the graph says are relevant — graph informin
 
 from __future__ import annotations
 
-from src.factorforge.knowledge import KnowledgeBase
-from src.factorforge.models import Document, Entity, EntityType, RelationType
+from factorforge.knowledge import KnowledgeBase
+from factorforge.models import Document, Entity, EntityType, RelationType
 
 # Anchors are *concepts*, not provenance nodes.
 _ANCHOR_TYPES = {EntityType.FACTOR, EntityType.REGIME, EntityType.ASSET}

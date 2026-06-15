@@ -20,9 +20,9 @@ from tenacity import (
     wait_exponential,
 )
 
-from src.factorforge.config import Settings
-from src.factorforge.corpus.structure import render_outline
-from src.factorforge.extract.prompts import (
+from factorforge.config import Settings
+from factorforge.corpus.structure import render_outline
+from factorforge.extract.prompts import (
     EXTRACTION_SYSTEM,
     EXTRACTION_TOOL,
     NAVIGATION_SYSTEM,
@@ -30,9 +30,9 @@ from src.factorforge.extract.prompts import (
     build_extraction_prompt,
     build_navigation_prompt,
 )
-from src.factorforge.logging import get_logger
-from src.factorforge.models import DocTree, Document, NavSelection, RawExtraction
-from src.factorforge.providers.base import LLMProvider
+from factorforge.logging import get_logger
+from factorforge.models import DocTree, Document, NavSelection, RawExtraction
+from factorforge.providers.base import LLMProvider
 
 if TYPE_CHECKING:
     from anthropic.types import MessageParam, ToolChoiceToolParam, ToolParam

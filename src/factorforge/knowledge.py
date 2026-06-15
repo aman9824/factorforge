@@ -10,12 +10,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from src.factorforge.corpus.loader import load_corpus
-from src.factorforge.extract.entities import IndexedDoc, index_corpus
-from src.factorforge.graph.build import build_graph
-from src.factorforge.graph.store import GraphStore
-from src.factorforge.models import DocTree, Document
-from src.factorforge.providers.base import LLMProvider
+from factorforge.corpus.loader import load_corpus
+from factorforge.extract.entities import IndexedDoc, index_corpus
+from factorforge.graph.build import build_graph
+from factorforge.graph.store import GraphStore
+from factorforge.models import DocTree, Document
+from factorforge.providers.base import LLMProvider
 
 
 @dataclass
