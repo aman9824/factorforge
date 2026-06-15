@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtualenv
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Runtime output (audit logs, generated reports)
+out/
+
+# Fetched real data — NEVER committed (Ken French Data Library is not redistributable).
+# `make fetch-french` writes here; it is regenerated on demand from the source.
+data/cache/
+
+# Local env / secrets
+.env
