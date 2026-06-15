@@ -40,6 +40,14 @@ def retrieve(
         candidates = dict(kb.docs)
 
     paths: list[EvidencePath] = graph_evidence(kb, query, anchors, settings.max_evidence_paths)
+
+    # Measure the token cost of *this* retrieval's navigations via the provider's cost tracker
+    # (graph evidence above makes no model call). The delta isolates the navigate() usage; with the
+    # mock provider — or no tracker attached — it stays zero.
+    tracker = provider.tracker
+    in_before = tracker.input_tokens if tracker is not None else 0
+    out_before = tracker.output_tokens if tracker is not None else 0
+
     for doc_id in sorted(candidates):
         path = tree_evidence(
             candidates[doc_id], kb.trees[doc_id], query, provider, settings.max_nav_nodes
@@ -52,7 +60,14 @@ def retrieve(
         path.score = _score(query_tokens, path)
     paths.sort(key=lambda p: -p.score)
 
+    nav_in = (tracker.input_tokens - in_before) if tracker is not None else 0
+    nav_out = (tracker.output_tokens - out_before) if tracker is not None else 0
+
     # One hierarchical-doc navigation per scoped document (each is a model call in vertex mode).
     return RetrievalResult(
-        query=query, paths=paths[: settings.max_evidence_paths], navigations=len(candidates)
+        query=query,
+        paths=paths[: settings.max_evidence_paths],
+        navigations=len(candidates),
+        input_tokens=nav_in,
+        output_tokens=nav_out,
     )

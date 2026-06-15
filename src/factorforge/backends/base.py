@@ -12,10 +12,14 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 from factorforge.agents.roles import Role
+from factorforge.telemetry import CostTracker
 
 
 class AgentBackend(ABC):
     name: str = "base"
+    # Optional cost sink (see LLMProvider.tracker): the Claude backend records each agent turn's
+    # token usage here when the orchestrator attaches a tracker. None (no-op) for the mock.
+    tracker: CostTracker | None = None
 
     @abstractmethod
     def run_role(self, role: Role, context: dict[str, Any]) -> dict[str, Any]:

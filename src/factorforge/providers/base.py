@@ -16,12 +16,21 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 from factorforge.models import DocTree, Document, NavSelection, RawExtraction
+from factorforge.telemetry import CostTracker
 
 
 class LLMProvider(ABC):
     """Strategy interface for structured generation."""
 
     name: str = "base"
+    # Optional cost sink: when the orchestrator attaches a tracker, real providers record their
+    # per-call token usage into it. Left None (no-op) for the mock and for standalone use.
+    tracker: CostTracker | None = None
+
+    def _record(self, stage: str, input_tokens: int, output_tokens: int) -> None:
+        """Report one model call's token usage to the attached tracker, if any."""
+        if self.tracker is not None:
+            self.tracker.add(stage, input_tokens=input_tokens, output_tokens=output_tokens)
 
     @abstractmethod
     def extract(self, doc: Document) -> RawExtraction:

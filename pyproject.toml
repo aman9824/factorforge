@@ -45,7 +45,9 @@ vertex = ["anthropic[vertex]>=0.40"]   # the [vertex] extra pulls google-auth fo
 claude = ["claude-agent-sdk>=0.1.0"]
 
 # Fetch real Fama-French factor data locally (never redistributed, never used in CI).
-french = ["pandas-datareader>=0.10"]
+# setuptools is required: pandas-datareader still imports the stdlib `distutils`, which was
+# removed in Python 3.12 — setuptools ships a vendored shim that restores `import distutils`.
+french = ["pandas-datareader>=0.10", "setuptools>=68"]
 
 dev = [
     "pytest>=8.2",

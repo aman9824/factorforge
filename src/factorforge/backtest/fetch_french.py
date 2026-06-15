@@ -13,6 +13,7 @@ Source: Kenneth R. French – Data Library, Tuck School of Business, Dartmouth C
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 import numpy as np
@@ -21,6 +22,11 @@ from factorforge.backtest.data import DEFAULT_CACHE_DIR
 from factorforge.logging import get_logger
 
 log = get_logger(__name__)
+
+# `DataReader(..., "famafrench")` defaults to only the last ~5 years, which is far too short for
+# meaningful in/out-of-sample overfitting diagnostics. Pull the full available history instead;
+# the library returns whatever exists from this start (value/size begin 1926, momentum 1927).
+_HISTORY_START = date(1926, 1, 1)
 
 # Friendly factor name -> Ken French dataset id (decile portfolios sorted on the characteristic).
 FRENCH_DATASETS: dict[str, str] = {
@@ -44,7 +50,7 @@ def fetch_french(
     written: list[str] = []
     for factor, dataset_id in datasets.items():
         log.info("french.fetch", factor=factor, dataset=dataset_id)
-        bundle = DataReader(dataset_id, "famafrench")
+        bundle = DataReader(dataset_id, "famafrench", start=_HISTORY_START)
         df = bundle[0].copy()                       # [0] = monthly value-weighted returns
         df = df.replace(_MISSING, np.nan) / 100.0   # we own the NaN coding + percent scaling
         if hasattr(df.index, "to_timestamp"):       # PeriodIndex -> month-end timestamps

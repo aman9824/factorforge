@@ -104,8 +104,8 @@ class ClaudeAgentBackend(AgentBackend):
         return await self._reporter_role(role, context)
 
     # ── driver ────────────────────────────────────────────────────────────────────
-    async def _drive(self, options: Any, prompt: str) -> str:
-        from claude_agent_sdk import AssistantMessage, TextBlock, query
+    async def _drive(self, options: Any, prompt: str, stage: str) -> str:
+        from claude_agent_sdk import AssistantMessage, ResultMessage, TextBlock, query
 
         parts: list[str] = []
 
@@ -115,11 +115,24 @@ class ClaudeAgentBackend(AgentBackend):
                     for block in message.content:
                         if isinstance(block, TextBlock):
                             parts.append(block.text)
+                elif isinstance(message, ResultMessage):
+                    self._record_usage(stage, message)
 
         import asyncio
 
         await asyncio.wait_for(_run(), timeout=self.settings.step_timeout_s)
         return "".join(parts)
+
+    def _record_usage(self, stage: str, message: Any) -> None:
+        """Record one agent turn's token usage (from the SDK ResultMessage) to the tracker."""
+        if self.tracker is None:
+            return
+        usage = getattr(message, "usage", None) or {}
+        if isinstance(usage, dict):
+            it, ot = usage.get("input_tokens", 0), usage.get("output_tokens", 0)
+        else:
+            it, ot = getattr(usage, "input_tokens", 0), getattr(usage, "output_tokens", 0)
+        self.tracker.add(stage, input_tokens=int(it or 0), output_tokens=int(ot or 0))
 
     # ── KG roles (external MCP server over stdio) ──────────────────────────────────
     async def _kg_role(self, role: Role, context: dict[str, Any]) -> dict[str, Any]:
@@ -141,7 +154,7 @@ class ClaudeAgentBackend(AgentBackend):
             env=self._agent_env(),
         )
         prompt = self._build_prompt(role, context)
-        raw = await self._drive(options, prompt)
+        raw = await self._drive(options, prompt, role.name)
         log.info("claude.kg_role", role=role.name, chars=len(raw))
         if role.name == "researcher":
             return self._parse_researcher(context, raw)
@@ -169,7 +182,7 @@ class ClaudeAgentBackend(AgentBackend):
             mcp_servers={"backtest": server},
             env=self._agent_env(),
         )
-        await self._drive(options, self._build_prompt(role, context))
+        await self._drive(options, self._build_prompt(role, context), role.name)
         # Numbers come from the tool, never the model's text.
         result = captured.get("result") or run_backtest_tool(context["hypothesis"], self.data_source)
         return {"reported_stats": result["stats"], "backtest": result}
@@ -199,7 +212,7 @@ class ClaudeAgentBackend(AgentBackend):
             mcp_servers={"diagnostics": server},
             env=self._agent_env(),
         )
-        raw = await self._drive(options, self._build_prompt(role, {"inputs": diag_inputs, **context}))
+        raw = await self._drive(options, self._build_prompt(role, {"inputs": diag_inputs, **context}), role.name)
         diagnostics = captured.get("result") or run_diagnostics_tool(diag_inputs, self.data_source)
         risk = self._parse_risk(raw)
         return {"diagnostics": diagnostics, "risk": risk.model_dump()}
@@ -215,7 +228,7 @@ class ClaudeAgentBackend(AgentBackend):
             max_turns=self.settings.max_turns,
             env=self._agent_env(),
         )
-        narrative = await self._drive(options, self._build_prompt(role, context))
+        narrative = await self._drive(options, self._build_prompt(role, context), role.name)
         return {"narrative": narrative.strip()}
 
     # ── prompts + parsing ──────────────────────────────────────────────────────────

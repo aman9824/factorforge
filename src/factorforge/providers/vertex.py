@@ -56,6 +56,7 @@ class VertexProvider(LLMProvider):
 
     def extract(self, doc: Document) -> RawExtraction:
         data = self._call(
+            "extract",
             EXTRACTION_SYSTEM,
             EXTRACTION_TOOL,
             build_extraction_prompt(doc.title, doc.text),
@@ -65,6 +66,7 @@ class VertexProvider(LLMProvider):
 
     def navigate(self, query: str, tree: DocTree, max_nodes: int = 5) -> NavSelection:
         data = self._call(
+            "navigate",
             NAVIGATION_SYSTEM,
             NAVIGATION_TOOL,
             build_navigation_prompt(query, render_outline(tree), max_nodes),
@@ -72,7 +74,7 @@ class VertexProvider(LLMProvider):
         log.info("vertex.navigate", document=tree.doc_id, model=self.model)
         return NavSelection.model_validate(data)
 
-    def _call(self, system: str, tool: dict[str, Any], user: str) -> dict[str, Any]:
+    def _call(self, stage: str, system: str, tool: dict[str, Any], user: str) -> dict[str, Any]:
         # Retry only TRANSIENT failures; 4xx are permanent and just waste calls.
         from anthropic import APIConnectionError, InternalServerError, RateLimitError
         from anthropic.types import ToolUseBlock
@@ -96,6 +98,13 @@ class VertexProvider(LLMProvider):
                 tool_choice=cast("ToolChoiceToolParam", {"type": "tool", "name": tool_name}),
                 messages=[cast("MessageParam", {"role": "user", "content": user})],
             )
+            usage = getattr(resp, "usage", None)
+            if usage is not None:
+                self._record(
+                    stage,
+                    int(getattr(usage, "input_tokens", 0) or 0),
+                    int(getattr(usage, "output_tokens", 0) or 0),
+                )
             for block in resp.content:
                 if isinstance(block, ToolUseBlock) and block.name == tool_name:
                     return cast("dict[str, Any]", block.input)

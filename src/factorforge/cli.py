@@ -67,6 +67,16 @@ def _print_report(report: Report) -> None:
         where = f"{cite.doc_id} > {cite.section}" if cite else ""
         console.print(f"  [{path.kind.value}] {step}  [dim]({where})[/]")
 
+    c = report.cost
+    if c.model_calls:
+        stages = ", ".join(f"{k} {v:,}" for k, v in c.by_stage.items())
+        console.print(
+            f"\n[bold]Cost[/]: {c.model_calls} model calls, {c.total_tokens:,} tokens "
+            f"(in {c.input_tokens:,} / out {c.output_tokens:,})  [dim]{stages}[/]"
+        )
+    else:
+        console.print("\n[bold]Cost[/]: 0 model calls (mock — no model usage)")
+
     console.print(f"\n[bold]Report:[/]\n{report.narrative}")
     console.print(f"\n[dim]{report.disclaimer}[/]")
 

@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # ffn (via bt) imports matplotlib.pyplot at import time — force a headless backend.
+  MPLBACKEND: Agg
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install (mock-only — no credentials, no real/Vertex deps)
+        run: python -m pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: python -m ruff check .
+
+      - name: Type-check (mypy strict)
+        run: python -m mypy
+
+      - name: Tests
+        run: python -m pytest -q
+
+      - name: Eval gate (extraction + citations + retrieval paths + backtest repro + overfit catch)
+        run: python -m evals.run_evals

@@ -20,6 +20,7 @@ from factorforge.logging import get_logger
 from factorforge.models import (
     BacktesterOutput,
     BacktestStats,
+    CostSummary,
     CriticOutput,
     EntityType,
     HypothesizerOutput,
@@ -49,12 +50,16 @@ def research(
     provider: LLMProvider | None = None,
 ) -> Report:
     settings = settings or get_settings()
+    # One cost tracker for the whole run. Attach it to the provider BEFORE the knowledge base is
+    # built so extraction tokens are counted, and to the backend so each agent turn is counted.
+    cost = CostTracker()
     provider = provider or build_provider(settings)
+    provider.tracker = cost
     kb = kb or build_knowledge_base(provider)
     data_source = data_source or build_data_source(settings)
     backend = backend or build_backend(settings, kb, data_source, provider)
+    backend.tracker = cost
     audit = AuditLog(settings)
-    cost = CostTracker()
     log.info("pipeline.start", question=question, backend=backend.name)
 
     # Authoritative vectorless retrieval (verify-don't-trust for evidence): the report's evidence
@@ -131,6 +136,13 @@ def research(
         risk=crit_out.risk,
         numbers_verified=numbers_verified,
         narrative=str(rep_out.get("narrative", "")),
+        cost=CostSummary(
+            model_calls=cost.model_calls,
+            input_tokens=cost.input_tokens,
+            output_tokens=cost.output_tokens,
+            total_tokens=cost.total_tokens,
+            by_stage=dict(cost.by_stage),
+        ),
     )
     audit.record("report", {"recommendation": report.risk.recommendation.value,
                             "numbers_verified": numbers_verified, "cost": cost.summary()})

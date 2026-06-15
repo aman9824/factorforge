@@ -345,6 +345,20 @@ DISCLAIMER = (
 )
 
 
+class CostSummary(BaseModel):
+    """Real model-usage telemetry for a run — makes the vectorless token cost visible.
+
+    Captured from the providers/backends as they call the model (mock reports zeros). ``by_stage``
+    breaks the total token count down by pipeline stage (extract / navigate / per agent role).
+    """
+
+    model_calls: int = 0
+    input_tokens: int = 0
+    output_tokens: int = 0
+    total_tokens: int = 0
+    by_stage: dict[str, int] = Field(default_factory=dict)
+
+
 class Report(BaseModel):
     """The self-contained, evidence-linked research report."""
 
@@ -359,4 +373,5 @@ class Report(BaseModel):
     risk: RiskAssessment
     numbers_verified: bool
     narrative: str = ""
+    cost: CostSummary = Field(default_factory=CostSummary)
     disclaimer: str = DISCLAIMER
